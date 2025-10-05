@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DulceFlash · Fotografía de pastelerías y chocolaterías</title>
+  <meta name="description" content="Fotografía rápida para marcas dulces: redes sociales, catálogos y edición creativa."/>
+
+  <!-- Open Sans (Google Fonts). Para títulos se intenta usar Cooper BT si está instalada en tu equipo. -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Paleta cálida */
+      --cacao:#4E342E;        /* marrón cacao intenso */
+      --beige:#F3E1C8;        /* beige crema */
+      --gold:#C7A25A;         /* dorado suave */
+      --white:#FAF9F6;        /* blanco cálido */
+      --rose:#E8B7B7;         /* rosa empolvado */
+      --ink:#1d1d1f;
+      --muted:#6b6b6b;
+      --radius:16px;
+      --shadow:0 8px 24px rgba(0,0,0,.06);
+    }
+
+    /* Tipografía */
+    :is(h1,h2,h3,h4){
+      font-family:"Cooper BT","Cooper Black", Georgia, "Times New Roman", serif;
+      color:var(--cacao);
+      letter-spacing:.2px;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body{font-family:'Open Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background:var(--white); margin:0}
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{width:min(1120px, 92vw); margin-inline:auto}
+
+    /* Header fijo */
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(10px); background:rgba(250,249,246,.85); border-bottom:1px solid #eee}
+    .nav{display:flex; align-items:center; gap:20px; padding:12px 0}
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo-img{ width: 55px; height: 55px; object-fit: contain; }
+    .brand-name{font-family:"Cooper BT","Cooper Black",Georgia,serif; font-size:1.25rem; color:var(--cacao)}
+    .menu{margin-left:auto; display:flex; gap:10px; align-items:center}
+    .menu a{padding:8px 12px; border-radius:10px; font-weight:600; color:var(--ink); transition: background-color .2s ease, color .2s ease;}
+    .menu a:hover{background:var(--beige)}
+    .cta{background:var(--cacao); color:#fff !important; padding:10px 18px; border-radius:999px; box-shadow:var(--shadow); transition: transform .2s ease, box-shadow .2s ease;}
+    .cta:hover{transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,.1);}
+    .hamb{display:none}
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden; background:linear-gradient(180deg, rgba(78,52,46,.85), rgba(78,52,46,.35)), url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1974&auto=format&fit=crop'); background-size:cover; background-position:center;}
+    .hero .inner{padding:96px 0; color:#fff}
+    .hero h1{font-size:clamp(2.2rem, 4vw + .5rem, 3.5rem); color:#fff; margin:0 0 10px; line-height: 1.1;}
+    .hero p{opacity:.95; margin:0 0 22px; font-weight:600; font-size: 1.1rem;}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:999px; font-weight:700; box-shadow:var(--shadow); transition:transform .2s ease, box-shadow .2s ease; border:none; font-family: 'Open Sans', sans-serif;}
+    .btn:hover{transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,.1); cursor: pointer;}
+    .btn.primary{background:var(--rose); color:#5c3b3b}
+
+    /* Secciones genericas */
+    section{padding:80px 0}
+    .section-head{text-align: center; margin-bottom:40px}
+    .section-head h2 {font-size: clamp(1.8rem, 3vw, 2.5rem);}
+    .section-head p {font-size: 1.1rem;}
+    .muted{color:var(--muted)}
+
+    /* Servicios */
+    .cards{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .card{
+      background:#fff; 
+      border-radius:var(--radius); 
+      padding:26px; 
+      box-shadow:var(--shadow); 
+      border:1px solid #eee; 
+      transition: transform .3s ease, box-shadow .3s ease; 
+      cursor: pointer;
+      flex: 0 1 350px; /* Controla el tamaño para que no se estiren */
+    }
+    .card:hover {transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,.1);}
+    .card .icon{font-size:32px; color: var(--gold);}
+
+    /* Timeline / Seguimiento */
+    .track{display:grid; grid-template-columns: 1.3fr .9fr; gap:28px; align-items: start;}
+    .status{background:#fff; border:1px solid #eee; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+    .progress{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px}
+    .step{position:relative; padding:14px; background:var(--beige); border-radius:12px; text-align:center; font-size:.9rem; transition: background-color 0.3s ease, color 0.3s ease;}
+    .step.active{background:var(--gold); color:#fff; font-weight:700}
+    .tracker{display:flex; gap:10px; margin-top:14px}
+    .tracker input{flex:1; padding:12px 14px; border-radius:12px; border:1px solid #ddd}
+    .tracker button{border:0; background:var(--cacao); color:#fff; padding:12px 16px; border-radius:12px; font-weight:700; cursor:pointer;}
+
+    /* Galería/Portafolio (CSS Grid layout) */
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+    .tile{
+      overflow:hidden; 
+      border-radius:18px; 
+      box-shadow:var(--shadow);
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+    }
+    .tile img{
+      width:100%; 
+      height:100%;
+      object-fit:cover; 
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .tile:hover img {transform: scale(1.05);}
+    .g-col-span-6 { grid-column: span 6; }
+    .g-col-span-4 { grid-column: span 4; }
+    .g-col-span-8 { grid-column: span 8; }
+
+
+    /* Reseñas */
+    .reviews{display:grid; grid-template-columns:repeat(2,1fr); gap:24px}
+    .review{background:#fff; border:1px solid #eee; padding:24px; border-radius:var(--radius); box-shadow:var(--shadow)}
+    .stars{color:#E0B422; letter-spacing:2px; font-size:1.1rem}
+
+    /* Contacto */
+    form{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    form textarea{grid-column:1/-1}
+    input, textarea{padding:12px 14px; border-radius:12px; border:1px solid #ddd; background:#fff; font-family: inherit; transition: border-color .2s ease, box-shadow .2s ease;}
+    input:focus, textarea:focus {outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(199, 162, 90, 0.2);}
+    .submit{justify-self:start; background:var(--cacao); color:#fff; border:0; padding:12px 22px; border-radius:12px; font-weight:700; cursor:pointer; transition: background-color .2s ease, transform .2s ease;}
+    .submit:hover {background-color: #3E2723; transform: translateY(-2px);}
+    .submit:disabled {background-color: #9E9E9E; cursor: not-allowed;}
+
+    /* WhatsApp flotante */
+    .wa{position:fixed; right:18px; bottom:18px; background:#25D366; color:#fff; padding:14px; border-radius:50%; box-shadow:var(--shadow); z-index:60; display:grid; place-items:center; transition: transform .2s ease;}
+    .wa:hover {transform: scale(1.1);}
+    .wa svg {width: 24px; height: 24px;}
+
+    /* Footer */
+    footer{background:var(--beige); color: var(--cacao); padding:40px 0; border-top: 1px solid #E0E0E0;}
+    .footer-content {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
+    .footer-brand strong {font-family:"Cooper BT","Cooper Black",Georgia,serif; font-size:1.1rem;}
+    .footer-links a {color: var(--cacao); margin: 0 8px;}
+    .footer-copy {opacity: .8;}
+    
+    /* Animación de entrada */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Modal (General) */
+    .modal-container {
+      position: fixed;
+      inset: 0;
+      background: rgba(29, 29, 31, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-container.open {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-content {
+      background: var(--white);
+      padding: 30px 40px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(0,0,0,.2);
+      max-width: 680px;
+      width: 90vw;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .modal-container.open .modal-content {
+      transform: scale(1);
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 2.2rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-content h3 {
+        margin-top: 0;
+        font-size: 1.8rem;
+    }
+
+    /* Modal de Galería (Lightbox) */
+    .lightbox-content {
+      background: none;
+      padding: 0;
+      box-shadow: none;
+      width: auto;
+      height: auto;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+    .lightbox-content img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 50px rgba(0,0,0,.4);
+    }
+    #lightbox-close {
+      color: #fff;
+      text-shadow: 0 0 8px rgba(0,0,0,.8);
+      font-size: 3rem;
+      top: -15px;
+      right: -10px;
+    }
+
+
+    /* Estilos para Modal de Precios */
+    #plans-modal-title {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    .plans-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        text-align: left;
+    }
+    .plan-card {
+        background: var(--beige);
+        padding: 20px;
+        border-radius: var(--radius);
+        border: 2px solid transparent;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .plan-card h4 {
+        margin: 0 0 10px;
+        font-size: 1.2rem;
+    }
+    .plan-card .price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--cacao);
+        margin-bottom: 15px;
+    }
+    .plan-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    .plan-card ul li {
+        margin-bottom: 8px;
+    }
+    .plan-card.featured {
+        border-color: var(--gold);
+        transform: scale(1.05);
+        box-shadow: var(--shadow);
+    }
+    
+    /* Responsive */
+    @media (max-width: 960px){
+      section{padding:60px 0}
+      .track{grid-template-columns:1fr}
+      .grid{ 
+        grid-template-columns: repeat(6, 1fr);
+      }
+      .g-col-span-6 { grid-column: span 6; }
+      .g-col-span-4 { grid-column: span 3; }
+      .g-col-span-8 { grid-column: span 6; }
+
+      .reviews{grid-template-columns:1fr}
+      .menu{display:none}
+      .hamb{display:inline-flex; margin-left:auto; background:#fff; border:1px solid #eee; border-radius:10px; padding:8px 10px; cursor: pointer;}
+      .menu.open{position:absolute; inset:68px 10px auto; display:flex; flex-direction:column; background:#fff; border:1px solid #eee; border-radius:14px; padding:10px; box-shadow: var(--shadow);}
+      .footer-content {flex-direction: column; text-align: center;}
+    }
+    @media (max-width: 480px) {
+        .grid{ 
+          grid-template-columns: repeat(1, 1fr);
+        }
+        .g-col-span-6, .g-col-span-4, .g-col-span-8 { grid-column: span 1; }
+        form {grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a href="#inicio" class="brand">
+        <img src="assets/logo.png" alt="dulceflash logo" class="logo-img">
+        <div class="brand-name">DulceFlash</div>
+      </a>
+      <nav class="menu" id="menu">
+        <a href="#inicio">Inicio</a>
+        <a href="#portafolio">Portafolio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#seguimiento">Seguimiento</a>
+        <a href="#resenas">Reseñas</a>
+        <a class="cta" href="#contacto">Sube tu pedido</a>
+      </nav>
+      <button class="hamb" id="hamb" aria-label="Abrir menú">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Inicio -->
+    <section id="inicio" class="hero">
+      <div class="container inner">
+        <h1>Fotografía rápida, campañas a tiempo</h1>
+        <p>Productos dulces con luz deliciosa para tus redes y catálogos.</p>
+        <a href="#contacto" class="btn primary">Quiero mis fotos ahora</a>
+      </div>
+    </section>
+
+    <!-- Portafolio / Galería -->
+    <section id="portafolio" class="container">
+      <div class="section-head">
+        <h2>Portafolio</h2>
+      </div>
+      <div class="grid">
+        <figure class="tile fade-in g-col-span-6"><img src="gallery/photo1.jpeg" alt="Postre en vaso – chocolate"/></figure>
+        <figure class="tile fade-in g-col-span-6"><img src="gallery/photo2.jpeg" alt="Fresas y chocolate"/></figure>
+        <figure class="tile fade-in g-col-span-4"><img src="gallery/photo3.jpeg" alt="Mousse de chocolate"/></figure>
+        <figure class="tile fade-in g-col-span-4"><img src="gallery/photo4.jpeg" alt="Capas de postre"/></figure>
+        <figure class="tile fade-in g-col-span-4"><img src="gallery/photo5.jpeg" alt="Brownie en vaso"/></figure>
+        <figure class="tile fade-in g-col-span-6"><img src="gallery/photo6.jpeg" alt="Oreo dessert"/></figure>
+        <figure class="tile fade-in g-col-span-6"><img src="gallery/photo7.jpeg" alt="Fresas en crema"/></figure>
+      </div>
+    </section>
+    
+    <!-- Servicios -->
+    <section id="servicios" class="container">
+      <div class="section-head">
+        <h2>Servicios</h2>
+        <p class="muted">Packs pensados para pastelerías y chocolaterías. Haz clic para ver más.</p>
+      </div>
+      <div class="cards">
+        <article class="card fade-in" data-service="express">
+          <div class="icon">📷</div>
+          <h3>Fotografía express</h3>
+          <p>Sesiones ágiles optimizadas para redes sociales (formato 1:1 y 4:5).</p>
+        </article>
+        <article class="card fade-in" data-service="edicion">
+          <div class="icon">🎨</div>
+          <h3>Edición creativa</h3>
+          <p>Corrección de color, limpieza, recortes y versión express en 24h.</p>
+        </article>
+      </div>
+      <div style="margin-top:24px; text-align: center;">
+        <button id="view-plans-btn" class="btn" style="background:var(--gold); color:#fff">Ver precios y planes</button>
+      </div>
+    </section>
+
+    <!-- Seguimiento en tiempo real -->
+    <section id="seguimiento" class="container" style="background-color: #fff; border-radius: var(--radius); padding-top: 60px; padding-bottom: 60px;">
+      <div class="section-head">
+        <h2>Seguimiento en tiempo real</h2>
+        <p class="muted">Ingresa tu código y mira en qué paso está tu pedido.</p>
+      </div>
+      <div class="track">
+        <div class="status fade-in">
+          <div class="tracker">
+            <input id="code" placeholder="Ej. DF-1024" aria-label="Código de pedido"/>
+            <button id="check">Ver estado</button>
+          </div>
+          <div class="progress" style="margin-top:16px">
+            <div class="step" data-step="1">📥 Pedido recibido</div>
+            <div class="step" data-step="2">📸 Sesión en proceso</div>
+            <div class="step" data-step="3">🎨 Edición en curso</div>
+            <div class="step" data-step="4">✅ Entrega final</div>
+          </div>
+          <p id="statusText" class="muted" style="margin-top:10px; text-align: center;">Escribe tu código para ver el progreso.</p>
+        </div>
+        <div class="status fade-in">
+          <h3 style="margin-top:6px">Cómo funciona</h3>
+          <ol>
+            <li>Sube tu pedido.</li>
+            <li>Realizamos la sesión fotográfica.</li>
+            <li>Editamos las fotos listas para redes sociales.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reseñas -->
+    <section id="resenas" class="container">
+      <div class="section-head">
+        <h2>Reseñas</h2>
+      </div>
+      <div class="reviews">
+        <div class="review fade-in">
+          <div class="stars">★★★★★</div>
+          <p>“Recibimos fotos en 24h y el feed quedó hermoso. ¡Súper recomendados!”</p>
+          <p class="muted">— Pastelería Flor de Cacao</p>
+        </div>
+        <div class="review fade-in">
+          <div class="stars">★★★★★</div>
+          <p>“Buen estilismo y edición limpia. Entregaron formatos para historias y reels.”</p>
+          <p class="muted">— Chocolatería Andina</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="container">
+      <div class="section-head">
+        <h2>Contacto</h2>
+        <p class="muted">Cuéntanos tu idea o sube tu pedido.</p>
+      </div>
+      <form class="fade-in">
+        <input type="text" placeholder="Nombre" required>
+        <input type="email" placeholder="Correo" required>
+        <textarea rows="5" placeholder="Mensaje / enlace a tu carpeta con productos"></textarea>
+        <button class="submit">Enviar</button>
+      </form>
+      <div id="form-status" style="text-align: center; margin-top: 16px; font-weight: 600; color: var(--cacao);"></div>
+    </section>
+  </main>
+  
+  <!-- Modal de Servicios -->
+  <div id="service-modal" class="modal-container">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close-btn">&times;</button>
+      <h3 id="modal-title"></h3>
+      <p id="modal-description"></p>
+    </div>
+  </div>
+  
+  <!-- Modal de Precios y Planes -->
+  <div id="plans-modal" class="modal-container">
+    <div class="modal-content">
+      <button id="plans-modal-close" class="modal-close-btn">&times;</button>
+      <h3 id="plans-modal-title">Precios y Planes</h3>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <h4>Plan Social</h4>
+          <p class="price">S/ 250</p>
+          <ul>
+            <li>✓ 10 fotos editadas</li>
+            <li>✓ Formato para redes</li>
+            <li>✓ Entrega en 48h</li>
+          </ul>
+        </div>
+        <div class="plan-card featured">
+          <h4>Plan Catálogo</h4>
+          <p class="price">S/ 550</p>
+          <ul>
+            <li>✓ 30 fotos editadas</li>
+            <li>✓ Formato redes y web</li>
+            <li>✓ Edición básica incluida</li>
+            <li>✓ Entrega en 72h</li>
+          </ul>
+        </div>
+        <div class="plan-card">
+          <h4>Plan Completo</h4>
+          <p class="price">S/ 800</p>
+          <ul>
+            <li>✓ 50+ fotos editadas</li>
+            <li>✓ Todos los formatos</li>
+            <li>✓ Edición creativa</li>
+            <li>✓ Entrega prioritaria</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Galería (Lightbox) -->
+  <div id="lightbox-modal" class="modal-container">
+    <div class="lightbox-content">
+      <button id="lightbox-close" class="modal-close-btn">&times;</button>
+      <img src="" alt="Vista ampliada de la imagen del portafolio" id="lightbox-img">
+    </div>
+  </div>
+
+  <!-- WhatsApp flotante -->
+  <a class="wa" href="https://wa.me/51999999999" target="_blank" aria-label="WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.269.655 4.357 1.846 6.069l-1.29 4.723 4.793-1.261z"/></svg>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <strong>DulceFlash</strong>
+        <div class="footer-copy">Fotografía para marcas dulces</div>
+      </div>
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a> · <a href="#servicios">Servicios</a> · <a href="#portafolio">Portafolio</a>
+      </div>
+      <div class="footer-copy">
+        © <span id="yr"></span> Todos los derechos reservados
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    // Importa las funciones que necesitas de los SDKs de Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  
+    // =================================================================================
+    // == PASO 1: PEGA AQUÍ TU CÓDIGO DE CONFIGURACIÓN DE FIREBASE ==
+    // =================================================================================
+    // Reemplaza el objeto de ejemplo de abajo con el que copiaste de tu proyecto.
+    const firebaseConfig = {
+        apiKey: "AIzaSyDrjhJy8Jf-I_3bosbKCT50EhH7tD-7Cbk", // CORREGIDO: Sin la barra al inicio
+        authDomain: "dulceflash-4af5f.firebaseapp.com",
+        projectId: "dulceflash-4af5f",
+        storageBucket: "dulceflash-4af5f.firebasestorage.app",
+        messagingSenderId: "816973203337", // CORREGIDO: Debe ir entre comillas
+        appId: "1:816973203337:web:7fff73e16635cfa4c5c358",                         // CORREGIDO: Debe ir entre comillas
+        measurementId: "G-YX3P9DVFT1"          // CORREGIDO: Debe ir entre comillas
+    };
+    // =================================================================================
+    // == FIN DEL PASO 1 ==
+    // =================================================================================
+  
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // --- Lógica General de la Página (menú, animaciones, etc.) ---
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    const hamb = document.getElementById('hamb');
+    const menu = document.getElementById('menu');
+    const menuLinks = menu.querySelectorAll('a');
+    hamb?.addEventListener('click', ()=> menu.classList.toggle('open'));
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => menu.classList.remove('open'));
+    });
+    
+    const contactForm = document.querySelector('#contacto form');
+    const formStatus = document.getElementById('form-status');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitButton = contactForm.querySelector('.submit');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+      setTimeout(() => {
+        contactForm.reset();
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar';
+        formStatus.textContent = '¡Gracias! Tu mensaje ha sido enviado.';
+        setTimeout(() => formStatus.textContent = '', 4000);
+      }, 1000);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    const elementsToAnimate = document.querySelectorAll('.fade-in');
+    elementsToAnimate.forEach(el => observer.observe(el));
+
+    // --- Lógica del Seguimiento (requiere Firebase) ---
+    const steps = [...document.querySelectorAll('#seguimiento .step')];
+    const input = document.getElementById('code');
+    const btn = document.getElementById('check');
+    const statusText = document.getElementById('statusText');
+
+    function renderProgress(level){
+      steps.forEach(s => s.classList.remove('active'));
+      if(level > 0 && level <= 4) {
+        for(let i=0; i < level; i++){ steps[i]?.classList.add('active'); }
+        const labels = ['Pedido recibido','Sesión en proceso','Edición en curso','Entrega final'];
+        statusText.textContent = `Estado: ${labels[level-1]}`;
+      } else {
+        statusText.textContent = 'Código no encontrado. Por favor, verifica e intenta de nuevo.';
+      }
+    }
+    
+    async function checkStatus() {
+        const code = (input.value || '').trim().toUpperCase();
+        if (!code) {
+          statusText.textContent = 'Por favor, ingresa un código de seguimiento.';
+          return;
+        }
+        
+        statusText.textContent = 'Buscando...';
+        btn.disabled = true;
+
+        try {
+          const docRef = doc(db, "pedidos", code);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            renderProgress(data.estado);
+          } else {
+            renderProgress(0); // Código no encontrado
+          }
+        } catch (error) {
+          console.error("Error al buscar el documento:", error);
+          statusText.textContent = 'Hubo un error al conectar con el servicio. Intenta más tarde.';
+        } finally {
+          btn.disabled = false;
+        }
+    }
+
+    if(btn && input){
+        btn.addEventListener('click', checkStatus);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') checkStatus();
+        });
+    }
+
+    // --- Lógica del Modal de Servicios ---
+    const serviceCards = document.querySelectorAll('#servicios .card');
+    const serviceModal = document.getElementById('service-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalClose = document.getElementById('modal-close');
+
+    const serviceDetails = {
+      express: {
+        title: "📷 Fotografía Express",
+        description: "Ideal para mantener tus redes sociales activas y atractivas. Entregamos un paquete de fotos de alta calidad en formatos optimizados para Instagram (feed y stories), Facebook y otras plataformas. Incluye estilismo de producto básico y una edición rápida para que tengas contenido fresco en tiempo récord."
+      },
+      edicion: {
+        title: "🎨 Edición Creativa",
+        description: "Llevamos tus fotos al siguiente nivel. Este servicio puede contratarse por separado o como un extra. Incluye retoque avanzado, corrección de color profesional, eliminación de imperfecciones, y montajes creativos. También ofrecemos una opción de entrega 'ultra express' en menos de 24 horas para lanzamientos urgentes."
+      }
+    };
+
+    function openServiceModal(service) {
+      const details = serviceDetails[service];
+      if (details) {
+        modalTitle.textContent = details.title;
+        modalDescription.textContent = details.description;
+        serviceModal.classList.add('open');
+      }
+    }
+
+    function closeServiceModal() {
+      serviceModal.classList.remove('open');
+    }
+
+    serviceCards.forEach(card => {
+      card.addEventListener('click', () => {
+        openServiceModal(card.dataset.service);
+      });
+    });
+
+    modalClose.addEventListener('click', closeServiceModal);
+    serviceModal.addEventListener('click', (e) => {
+      if (e.target === serviceModal) closeServiceModal();
+    });
+
+    // --- Lógica del Modal de Precios ---
+    const plansBtn = document.getElementById('view-plans-btn');
+    const plansModal = document.getElementById('plans-modal');
+    const plansModalClose = document.getElementById('plans-modal-close');
+
+    function openPlansModal() {
+      plansModal.classList.add('open');
+    }
+
+    function closePlansModal() {
+      plansModal.classList.remove('open');
+    }
+
+    plansBtn.addEventListener('click', openPlansModal);
+    plansModalClose.addEventListener('click', closePlansModal);
+    plansModal.addEventListener('click', (e) => {
+      if (e.target === plansModal) closePlansModal();
+    });
+    
+    // --- Lógica del Lightbox de la Galería ---
+    const galleryTiles = document.querySelectorAll('#portafolio .tile');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    function openLightbox(imgSrc) {
+      lightboxImg.src = imgSrc;
+      lightboxModal.classList.add('open');
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('open');
+    }
+
+    galleryTiles.forEach(tile => {
+      tile.addEventListener('click', (e) => {
+        const imgSrc = tile.querySelector('img').src;
+        openLightbox(imgSrc);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) closeLightbox();
+    });
+
+
+    // --- Cierre de Modales con tecla Escape ---
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (serviceModal.classList.contains('open')) closeServiceModal();
+        if (plansModal.classList.contains('open')) closePlansModal();
+        if (lightboxModal.classList.contains('open')) closeLightbox();
+      }
+    });
+
+  </script>
+</body>
+</html>
+
